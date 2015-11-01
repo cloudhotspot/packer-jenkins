@@ -1,0 +1,3 @@
+[submodule "packer"]
+	path = packer
+	url = git@github.com:cloudhotspot/packer-scripts.git

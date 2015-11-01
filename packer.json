@@ -1,0 +1,141 @@
+{
+  "variables": {
+    "vm_disk_size": "81920",
+    "vm_iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04.3-server-amd64.iso",
+    "vm_iso_checksum": "9e5fecc94b3925bededed0fdca1bd417",
+    "atlas_artifact_name": "cloudhotspot/jenkins",
+    "atlas_artifact_version": "14.04.3"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "<enter><wait>",
+        "/install/vmlinuz",
+        " auto=true",
+        " priority=critical",
+        " initrd=/install/initrd.gz",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
+        " -- ",
+        "<enter>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{user `vm_disk_size`}}",
+      "guest_os_type": "Ubuntu_64",
+      "headless": true,
+      "http_directory": "packer/http",
+      "iso_urls": [
+        "iso/{{user `vm_iso_url`}}",
+        "{{user `vm_iso_url`}}"
+      ],
+      "iso_checksum_type": "md5",
+      "iso_checksum": "{{user `vm_iso_checksum`}}",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "cloudhotspot-jenkins-server-14.04-amd64",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "512"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "2"
+        ]
+      ]
+    },
+    {
+      "type": "vmware-iso",
+      "boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "<enter><wait>",
+        "/install/vmlinuz",
+        " auto=true",
+        " priority=critical",
+        " initrd=/install/initrd.gz",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
+        " -- ",
+        "<enter>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{user `vm_disk_size`}}",
+      "disk_type_id": "0",
+      "guest_os_type": "ubuntu-64",
+      "headless": true,
+      "http_directory": "packer/http",
+      "iso_urls": [
+        "iso/{{user `vm_iso_url`}}",
+        "{{user `vm_iso_url`}}"
+      ],
+      "iso_checksum_type": "md5",
+      "iso_checksum": "{{user `vm_iso_checksum`}}",
+      "output_directory": "tmp",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "tools_upload_flavor": "linux",
+      "vm_name": "cloudhotspot-jenkins-server-14.04-amd64",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "512",
+        "numvcpus": "2"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
+      "script": "packer/scripts/configure-vagrant-sudo.sh"
+    },
+    {
+      "type": "shell",
+      "script": "packer/scripts/install-vagrant-key.sh"
+    },
+    {
+      "type": "shell",
+      "script": "packer/scripts/install-vmware-tools.sh",
+      "only": ["vmware-iso"] 
+    },
+    {
+      "type": "shell",
+      "script": "packer/scripts/install-virtualbox-guest-additions.sh",
+      "only": ["virtualbox-iso"] 
+    },
+    {
+      "type": "shell",
+      "script": "packer/scripts/install-ansible.sh"
+    },
+    {
+      "type": "shell",
+      "script": "packer/scripts/install-docker.sh"
+    },
+    {
+      "type": "shell",
+      "script": "packer/scripts/install-jenkins.sh"
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo usermod -aG docker jenkins"]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "keep_input_artifact": false
+    }
+  ]
+}
