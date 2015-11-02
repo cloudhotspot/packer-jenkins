@@ -1,0 +1,15 @@
+jenkins:
+  box: cloudhotspot/jenkins
+  memory: 2048
+  cpu: 2
+  aws:
+    region: us-west-2
+    keypair_name: Justins-Mac-Pro
+    ami: ami-eeaeba8f
+    subnet_id: subnet-97452df2
+    associate_public_ip: true
+    instance_type: t2.medium
+    security_groups:
+      - sg-f34b3397
+    tags:
+      application: jenkins
