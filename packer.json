@@ -4,9 +4,29 @@
     "vm_iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04.3-server-amd64.iso",
     "vm_iso_checksum": "9e5fecc94b3925bededed0fdca1bd417",
     "atlas_artifact_name": "cloudhotspot/jenkins",
-    "atlas_artifact_version": "14.04.3"
+    "atlas_artifact_version": "14.04.3",
+    "aws_access_key": "",
+    "aws_secret_key": ""
   },
   "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "us-west-2",
+      "source_ami": "ami-8ee605bd",
+      "instance_type": "t2.medium",
+      "ssh_username": "ubuntu",
+      "ami_name": "jenkins {{timestamp}}",
+      "vpc_id": "vpc-db0696be",
+      "subnet_id": "subnet-97452df2",
+      "associate_public_ip_address": true,
+      "tags": {
+        "OS_Version": "Ubuntu",
+        "Release": "Latest",
+        "Application": "Jenkins"
+      }
+    },
     {
       "type": "virtualbox-iso",
       "boot_command": [
@@ -99,11 +119,13 @@
     {
       "type": "shell",
       "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
-      "script": "packer/scripts/configure-vagrant-sudo.sh"
+      "script": "packer/scripts/configure-vagrant-sudo.sh",
+      "only": ["vmware-iso", "virtualbox-iso"] 
     },
     {
       "type": "shell",
-      "script": "packer/scripts/install-vagrant-key.sh"
+      "script": "packer/scripts/install-vagrant-key.sh",
+      "only": ["vmware-iso", "virtualbox-iso"]
     },
     {
       "type": "shell",
@@ -122,6 +144,10 @@
     {
       "type": "shell",
       "script": "packer/scripts/install-docker.sh"
+    },
+    {
+      "type": "shell",
+      "script": "packer/scripts/install-oracle-java.sh"
     },
     {
       "type": "shell",
