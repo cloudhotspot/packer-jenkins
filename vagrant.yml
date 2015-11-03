@@ -4,12 +4,13 @@ jenkins:
   cpu: 2
   aws:
     region: us-west-2
-    keypair_name: Justins-Mac-Pro
-    ami: ami-eeaeba8f
+    keypair_name: Justins-Macbook-Pro
+    ami: ami-b34f58d2
     subnet_id: subnet-97452df2
     associate_public_ip: true
-    instance_type: t2.medium
+    elastic_ip: true
+    instance_type: t2.micro
     security_groups:
-      - sg-f34b3397
+      - sg-2fdba34b
     tags:
       application: jenkins
