@@ -5,22 +5,30 @@
     "vm_iso_checksum": "9e5fecc94b3925bededed0fdca1bd417",
     "atlas_artifact_name": "cloudhotspot/jenkins",
     "atlas_artifact_version": "14.04.3",
-    "aws_access_key": "",
-    "aws_secret_key": ""
+    "aws_access_key": "{{env `AWS_ACCESS_KEY`}}",
+    "aws_secret_key": "{{env `AWS_SECRET_KEY`}}",
+    "aws_source_ami": "ami-8ee605bd",
+    "aws_region": "us-west-2",
+    "aws_instance_type": "t2.micro",
+    "aws_ssh_username": "ubuntu",
+    "aws_vpc_id":"vpc-db0696be",
+    "aws_subnet_id": "subnet-97452df2",
+    "aws_associate_public_ip_address": "true",
+    "aws_ami_name": "jenkins {{timestamp}}"
   },
   "builders": [
     {
       "type": "amazon-ebs",
       "access_key": "{{user `aws_access_key`}}",
       "secret_key": "{{user `aws_secret_key`}}",
-      "region": "us-west-2",
-      "source_ami": "ami-8ee605bd",
-      "instance_type": "t2.medium",
-      "ssh_username": "ubuntu",
-      "ami_name": "jenkins {{timestamp}}",
-      "vpc_id": "vpc-db0696be",
-      "subnet_id": "subnet-97452df2",
-      "associate_public_ip_address": true,
+      "region": "{{user `aws_region`}}",
+      "source_ami": "{{user `aws_source_ami`}}",
+      "instance_type": "{{user `aws_instance_type`}}",
+      "ssh_username": "{{user `aws_ssh_username`}}",
+      "ami_name": "{{user `aws_ami_name`}}",
+      "vpc_id": "{{user `aws_vpc_id`}}",
+      "subnet_id": "{{user `aws_subnet_id`}}",
+      "associate_public_ip_address": "{{user `aws_associate_public_ip_address`}}",
       "tags": {
         "OS_Version": "Ubuntu",
         "Release": "Latest",
@@ -144,6 +152,11 @@
     {
       "type": "shell",
       "script": "packer/scripts/install-docker.sh"
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo usermod -aG docker vagrant"],
+      "only": ["vmware-iso", "virtualbox-iso"]
     },
     {
       "type": "shell",
