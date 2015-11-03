@@ -50,7 +50,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
         config.hostmanager.ip_resolver = proc do |vm, resolving_vm|
           if hostname = (vm.ssh_info && vm.ssh_info[:host])
-            `host #{hostname}`.match(/-([0-9]+)-([0-9]+)-([0-9]+)-([0-9]+)/) {|m| "#{m[1]}.#{m[2]}.#{m[3]}.#{m[1]}"}
+            `host #{hostname}`.match(/-([0-9]+)-([0-9]+)-([0-9]+)-([0-9]+)/) {|m| "#{m[1]}.#{m[2]}.#{m[3]}.#{m[4]}"}
           end
         end
       end
