@@ -32,11 +32,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         aws_settings = values["aws"]
         aws.access_key_id = ENV['AWS_ACCESS_KEY']
         aws.secret_access_key = ENV['AWS_SECRET_KEY']
+
         aws.region = aws_settings["region"]
         aws.instance_type = aws_settings["instance_type"] || "t2.micro"
         aws.keypair_name = aws_settings["keypair_name"]
         aws.ami = aws_settings["ami"]
         aws.subnet_id = aws_settings["subnet_id"]
+        aws.elastic_ip = aws_settings["elastic_ip"]
         aws.associate_public_ip = aws_settings["associate_public_ip"] || false
         aws.security_groups = aws_settings["security_groups"] || []
         aws.tags = aws_settings["tags"] || {}
