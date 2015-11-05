@@ -6,7 +6,7 @@ USER root
 
 # Install base packages
 RUN apt-get update -y && \
-    apt-get install apt-transport-https curl -y 
+    apt-get install apt-transport-https curl make -y 
 
 # Install Docker Engine
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D && \
@@ -19,6 +19,11 @@ RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C0
 # Install Docker Compose
 RUN curl -L https://github.com/docker/compose/releases/download/1.5.0rc3/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose && \
     chmod +x /usr/local/bin/docker-compose
+
+# Install Ansible
+RUN apt-get install python-setuptools ansible -y && \
+   easy_install pip && \
+   pip install ansible --upgrade
 
 # Change to jenkins user
 USER jenkins
