@@ -3,9 +3,10 @@ jenkins:
   memory: 2048
   cpu: 2
   aws:
+    private_key_path: ~/.ssh/aws
     region: us-west-2
-    keypair_name: Justins-Macbook-Pro
-    ami: ami-b34f58d2
+    keypair_name: "Justin Menga"
+    ami: ami-ccdfc9ad
     subnet_id: subnet-97452df2
     associate_public_ip: true
     elastic_ip: true
@@ -14,3 +15,4 @@ jenkins:
       - sg-2fdba34b
     tags:
       application: jenkins
+      environment: playground
