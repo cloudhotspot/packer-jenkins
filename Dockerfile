@@ -1,6 +1,8 @@
 FROM jenkins
 MAINTAINER Justin Menga <justin.menga@cloudhotspot.co>
 
+ENV TERM=xterm-256color
+
 # Change to root user
 USER root
 
@@ -14,6 +16,7 @@ RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C0
     apt-get update -y && \
     apt-get purge lxc-docker* -y && \
     apt-get install docker-engine -y && \
+    usermod -aG users jenkins && \
     usermod -aG docker jenkins
 
 # Install Docker Compose
@@ -27,3 +30,7 @@ RUN apt-get install python-setuptools ansible -y && \
 
 # Change to jenkins user
 USER jenkins
+
+# Add Jenkins plugins
+COPY plugins.txt /usr/share/jenkins/plugins.txt
+RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
