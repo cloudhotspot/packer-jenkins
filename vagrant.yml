@@ -6,7 +6,7 @@ jenkins:
     private_key_path: ~/.ssh/aws
     region: us-west-2
     keypair_name: "Justin Menga"
-    ami: ami-ccdfc9ad
+    ami: ami-fac3d59b
     subnet_id: subnet-97452df2
     associate_public_ip: true
     elastic_ip: true
