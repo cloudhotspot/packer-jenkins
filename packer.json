@@ -168,6 +168,14 @@
     },
     {
       "type": "shell",
+      "inline": [
+        "sudo apt-get purge jenkins -y",
+        "wget http://pkg.jenkins-ci.org/debian/binary/jenkins_1.634_all.deb",
+        "sudo dpkg -i jenkins_1.634_all.deb"
+      ]
+    },
+    {
+      "type": "shell",
       "inline": ["sudo usermod -aG docker jenkins"]
     }
   ],

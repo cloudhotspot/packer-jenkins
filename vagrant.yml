@@ -1,7 +1,7 @@
 jenkins:
   box: cloudhotspot/jenkins
-  memory: 2048
-  cpu: 2
+  memory: 1024
+  cpu: 1
   aws:
     private_key_path: ~/.ssh/aws
     region: us-west-2
