@@ -6,4 +6,3 @@ jenkins:
     - 50000:50000
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    - /var/jenkins_home
