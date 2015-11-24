@@ -26,3 +26,5 @@ script-security:latest
 mailer:latest
 docker-commons:latest
 dockerhub-notification:latest
+ace-editor:latest
+jquery-detached:latest
