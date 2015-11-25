@@ -18,6 +18,10 @@ workflow-job:latest
 workflow-scm-step:latest
 workflow-step-api:latest
 workflow-support:latest
+workflow-multibranch:latest
+docker-workflow:latest
+docker-build-publish:latest
+dockerhub-notification:latest
 scm-api:latest
 mapdb-api:latest
 subversion:latest
@@ -28,3 +32,8 @@ docker-commons:latest
 dockerhub-notification:latest
 ace-editor:latest
 jquery-detached:latest
+cloudbees-folder:latest
+branch-api:latest
+zentimestamp:latest
+token-macro:latest
+github-branch-source:latest
