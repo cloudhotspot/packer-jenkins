@@ -1,4 +1,4 @@
-FROM jenkins
+FROM jenkinsci/jenkins
 MAINTAINER Justin Menga <justin.menga@cloudhotspot.co>
 
 ENV TERM=xterm-256color
