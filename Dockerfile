@@ -1,13 +1,13 @@
-FROM jenkinsci/jenkins
+FROM jenkins
 MAINTAINER Justin Menga <justin.menga@cloudhotspot.co>
 
 ENV TERM=xterm-256color
 
-# Set mirrors to NZ
-# RUN sed -i "s/http:\/\/archive./http:\/\/nz.archive./g" /etc/apt/sources.list 
-
 # Change to root user
 USER root
+
+# Set mirrors to NZ
+# RUN sed -i "s/http:\/\/archive./http:\/\/nz.archive./g" /etc/apt/sources.list 
 
 # Install base packages
 RUN apt-get update -y && \
@@ -32,7 +32,7 @@ RUN apt-get install python-setuptools ansible -y && \
    pip install ansible --upgrade
 
 # Change to jenkins user
-USER jenkins
+# USER jenkins
 
 # Add Jenkins plugins
 COPY plugins.txt /usr/share/jenkins/plugins.txt

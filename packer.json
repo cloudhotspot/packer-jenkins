@@ -11,8 +11,8 @@
     "aws_region": "us-west-2",
     "aws_instance_type": "t2.micro",
     "aws_ssh_username": "ubuntu",
-    "aws_vpc_id":"vpc-db0696be",
-    "aws_subnet_id": "subnet-97452df2",
+    "aws_vpc_id":"vpc-537d5136",
+    "aws_subnet_id": "subnet-672f7910",
     "aws_associate_public_ip_address": "true",
     "aws_ami_name": "jenkins {{timestamp}}"
   },
